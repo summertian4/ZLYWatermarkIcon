@@ -1,0 +1,65 @@
+export PATH=/opt/local/bin/:/opt/local/sbin:$PATH:/usr/local/bin:
+
+# blurmaker -i xxx.png -s "sign"
+
+convertPath=`which convert`
+imagePath=""
+caption=""
+
+if [ ! -f ${convertPath} ]; then
+echo "==============
+WARNING: 你需要先安装 ImageMagick！！！！:
+brew install imagemagick
+=============="
+exit 0;
+fi
+
+while getopts 'i:s:' arg
+do
+    case $arg in
+        i)
+			# 保存图片
+            imagePath=$OPTARG
+            ;;
+        s)
+            caption=$OPTARG
+            ;;
+esac
+done
+
+function generateIcon() {
+    originalImg=$1
+    caption=$2
+
+    # 验证存在性
+
+    if [ ! -f ${originalImg} ]; then
+		echo 图片不存在
+		exit 0;
+	fi
+
+    # 添加高斯模糊
+    convert ${originalImg} -blur 10x8 blur-original.png
+
+    # 截取下部分
+    width=`identify -format %w ${originalImg}`
+    height=`identify -format %h ${originalImg}`
+    height_0=`expr ${height} / 2`
+    height_1=$((${height} - ${height_0}))
+    convert blur-original.png -crop ${width}x${height_0}+0+${height_1} crop-blur-original.png
+
+    # 加字
+    point_size=$(((8 * $height) / 58))
+
+    convert -background none -fill white -pointsize ${point_size} -gravity center caption:"${caption}" crop-blur-original.png +swap -composite label.png
+
+    # 合成
+    composite -geometry +0+${height_0} label.png ${originalImg} watermark.png
+
+    # 清除文件
+    rm blur-original.png
+    rm crop-blur-original.png
+    rm label.png
+}
+
+generateIcon ${imagePath} ${caption}
