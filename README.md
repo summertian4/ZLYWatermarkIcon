@@ -8,7 +8,7 @@
 
 ![](res/sample-01.png)
 
-图片来自[花瓣](http://huaban.com/pins/571816999/)
+App LOGO 图片来自[花瓣](http://huaban.com/pins/571816999/)
 
 ## 安装
 
@@ -46,6 +46,6 @@ $ blurmaker -i yourimage -s "your text"
 
 ![](res/sample-02.png)
 
-图片来自[花瓣](http://huaban.com/pins/571817001/)
+App LOGO 图片来自[花瓣](http://huaban.com/pins/571817001/)
 
 
