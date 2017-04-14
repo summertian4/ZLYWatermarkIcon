@@ -62,7 +62,7 @@ function generateIcon() {
     rm label.png
 }
 
-icon_count=`/usr/libexec/PlistBuddy -c "Print CFBundleIcons:CFBundlePrimaryIcon:CFBundleIconFiles" "${CONFIGURATION_BUILD_DIR}/${INFOPLIST_PATH}" | wc -l`
+temp_icon_count=`/usr/libexec/PlistBuddy -c "Print CFBundleIcons:CFBundlePrimaryIcon:CFBundleIconFiles" "${CONFIGURATION_BUILD_DIR}/${INFOPLIST_PATH}" | wc -l`
 
 
 # Array {
@@ -71,10 +71,10 @@ icon_count=`/usr/libexec/PlistBuddy -c "Print CFBundleIcons:CFBundlePrimaryIcon:
 # AppIcon60x60
 # }
 # -2 的原因是因为输出是五行
-real_icon_index=$((${icon_count} - 2))
+real_icon_count=$((${temp_icon_count} - 2))
 
 # ========= for =========
-for ((i=0; i<$real_icon_index; i++)); do
+for ((i=0; i<$real_icon_count; i++)); do
 # 去 plist 中顺着路径找到 icon 名
 icon=`/usr/libexec/PlistBuddy -c "Print CFBundleIcons:CFBundlePrimaryIcon:CFBundleIconFiles:$i" "${CONFIGURATION_BUILD_DIR}/${INFOPLIST_PATH}"`
 

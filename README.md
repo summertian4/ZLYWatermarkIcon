@@ -10,6 +10,8 @@
 
 App LOGO 图片来自[花瓣](http://huaban.com/pins/571816999/)
 
+> 此 repo 是个人练习时候写的脚本，如果需要更强大的功能，强烈推荐 [KZBootstrap, a powerful project setup aimed at high quality code.](https://github.com/krzysztofzablocki/KZBootstrap)
+
 ## 安装
 
 1. 将 `watermark_icon.sh` 放置到 Xcode 工程目录下
