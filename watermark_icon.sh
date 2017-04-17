@@ -2,7 +2,7 @@ export PATH=/opt/local/bin/:/opt/local/sbin:$PATH:/usr/local/bin:
 
 convertPath=`which convert`
 
-if [ ! -f ${convertPath}]; then
+if [ ! -f ${convertPath} ]; then
 echo "==============
 WARNING: 你需要先安装 ImageMagick！！！！:
 brew install imagemagick
@@ -17,7 +17,7 @@ buildNumber=`/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "${INFOPLIST_FIL
 caption="${buildNumber} \n${branch}\n${commit}"
 
 echo "caption: ${caption}"
-echo "project_path: ${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/"
+echo "product_path: ${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/"
 
 # Release 不执行
 echo "Configuration: $CONFIGURATION"
@@ -49,7 +49,7 @@ function generateIcon() {
     convert blur-original.png -crop ${width}x${height_0}+0+${height_1} crop-blur-original.png
 
     # 加字
-    point_size=$(((8 * $height) / 58))
+    point_size=$(((8 * $width) / 58))
 
     convert -background none -fill white -pointsize ${point_size} -gravity center caption:"${caption}" crop-blur-original.png +swap -composite label.png
 
@@ -62,7 +62,7 @@ function generateIcon() {
     rm label.png
 }
 
-temp_icon_count=`/usr/libexec/PlistBuddy -c "Print CFBundleIcons:CFBundlePrimaryIcon:CFBundleIconFiles" "${CONFIGURATION_BUILD_DIR}/${INFOPLIST_PATH}" | wc -l`
+icon_count=`/usr/libexec/PlistBuddy -c "Print CFBundleIcons:CFBundlePrimaryIcon:CFBundleIconFiles" "${CONFIGURATION_BUILD_DIR}/${INFOPLIST_PATH}" | wc -l`
 
 
 # Array {
@@ -71,10 +71,10 @@ temp_icon_count=`/usr/libexec/PlistBuddy -c "Print CFBundleIcons:CFBundlePrimary
 # AppIcon60x60
 # }
 # -2 的原因是因为输出是五行
-real_icon_count=$((${temp_icon_count} - 2))
+real_icon_index=$((${icon_count} - 2))
 
 # ========= for =========
-for ((i=0; i<$real_icon_count; i++)); do
+for ((i=0; i<$real_icon_index; i++)); do
 # 去 plist 中顺着路径找到 icon 名
 icon=`/usr/libexec/PlistBuddy -c "Print CFBundleIcons:CFBundlePrimaryIcon:CFBundleIconFiles:$i" "${CONFIGURATION_BUILD_DIR}/${INFOPLIST_PATH}"`
 
