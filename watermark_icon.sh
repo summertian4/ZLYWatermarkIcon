@@ -2,7 +2,7 @@ export PATH=/opt/local/bin/:/opt/local/sbin:$PATH:/usr/local/bin:
 
 convertPath=`which convert`
 
-if [ ! -f ${convertPath} ]; then
+if [[ ! -f ${convertPath} || -z ${convertPath} ]]; then
 echo "==============
 WARNING: 你需要先安装 ImageMagick！！！！:
 brew install imagemagick
